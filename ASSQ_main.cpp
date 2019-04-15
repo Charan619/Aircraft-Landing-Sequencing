@@ -30,36 +30,36 @@ static int c1, c2, c3, c4;
 class stack
 {
     public:
-		int pri;
+	int pri;
         struct aircraft* bottom;
-		struct aircraft* top;
+	struct aircraft* top;
         stack(int p)
         {
-			pri = p;
+	    pri = p;
             bottom = top = NULL;
         }   
         void enqueue(int fl, int s, int pr)
         {
-			if(bottom==NULL)
-			{
-				struct aircraft* temp=new Node;
-				temp->sc = s;
-				temp->pr = pr;
-				temp->flid = fl;
-				temp->link = NULL;
-				top = temp;
-				bottom = temp;
-			}
-			else
-			{
-				struct aircraft* temp=new Node;
-				temp->sc = s;
-				temp->pr = pr;
-				temp->flid = fl;
-				temp->link = NULL;
-				top->link = temp;
-				top = temp;				
-			}
+		if(bottom==NULL)
+		{
+			struct aircraft* temp=new Node;
+			temp->sc = s;
+			temp->pr = pr;
+			temp->flid = fl;
+			temp->link = NULL;
+			top = temp;
+			bottom = temp;
+		}
+		else
+		{
+			struct aircraft* temp=new Node;
+			temp->sc = s;
+			temp->pr = pr;
+			temp->flid = fl;
+			temp->link = NULL;
+			top->link = temp;
+			top = temp;				
+		}
         }
 
         void dequeue()
@@ -70,79 +70,79 @@ class stack
             {
                 struct aircraft* temp=bottom;
                 bottom=bottom->link;
-				int ch;
-				cout<<"All aircraft leaving the stack shall slow down to 160 KIAS on short final, 10 miles to the runway"<<endl<<endl;
-				cout<<"In case of a specialized request by the pilot owing to weather/technical reasons, the aircraft will be"<<endl;
-				cout<<"allowed to perform a Touch-and-go. In this case, it shall return to the top of the stack."<<endl;
-				if(temp->sc==1)
+		int ch;
+		cout<<"All aircraft leaving the stack shall slow down to 160 KIAS on short final, 10 miles to the runway"<<endl<<endl;
+		cout<<"In case of a specialized request by the pilot owing to weather/technical reasons, the aircraft will be"<<endl;
+		cout<<"allowed to perform a Touch-and-go. In this case, it shall return to the top of the stack."<<endl;
+		if(temp->sc==1)
+		{
+			delay(180);
+			cout<<"Controller permission:"<<"\n1 - Full Stop\n 2 - Touch and go"<<endl;
+			cin>>ch;
+			if(ch==1)
+			{
+				if(pri==1||pri==2)
 				{
-					delay(180);
-					cout<<"Controller permission:"<<"\n1 - Full Stop\n 2 - Touch and go"<<endl;
-					cin>>ch;
-					if(ch==1)
-					{
-						if(pri==1||pri==2)
-						{
-							cout<<"Aircraft touched down on runway 09. Waiting period: 82 seconds"<<endl;
-							delay(82);
-						}
-						else if(pri==3||pri==4)
-						{
-							cout<<"Aircraft touched down on runway 27. Waiting period: 82 seconds"<<endl;
-							delay(82);
-						}
-					}
-					else if(ch==2)
-					{
-						enqueue(temp->flid, temp->sc, temp->pr);
-					}
+					cout<<"Aircraft touched down on runway 09. Waiting period: 82 seconds"<<endl;
+					delay(82);
 				}
-				else if(temp->sc==2)
+				else if(pri==3||pri==4)
 				{
-					delay(180);
-					cout<<"Controller permission:"<<"\n1 - Full Stop\n 2 - Touch and go"<<endl;
-					cin>>ch;
-					if(ch==1)
-					{
-						if(pri==1||pri==2)
-						{
-							cout<<"Aircraft touched down on runway 09. Waiting period: 82 seconds"<<endl;
-							delay(131);
-						}
-						else if(pri==3||pri==4)
-						{
-							cout<<"Aircraft touched down on runway 27. Waiting period: 82 seconds"<<endl;
-							delay(131);
-						}
-					}
-					else if(ch==2)
-					{
-						enqueue(temp->flid, temp->sc, temp->pr);
-					}
+					cout<<"Aircraft touched down on runway 27. Waiting period: 82 seconds"<<endl;
+					delay(82);
 				}
-				else if(temp->sc==3)
+			}
+			else if(ch==2)
+			{
+				enqueue(temp->flid, temp->sc, temp->pr);
+			}
+		}
+		else if(temp->sc==2)
+		{
+			delay(180);
+			cout<<"Controller permission:"<<"\n1 - Full Stop\n 2 - Touch and go"<<endl;
+			cin>>ch;
+			if(ch==1)
+			{
+				if(pri==1||pri==2)
 				{
-					delay(180);
-					cout<<"Controller permission:"<<"\n1 - Full Stop\n 2 - Touch and go"<<endl;
-					cin>>ch;
-					if(ch==1)
-					{
-						if(pri==1||pri==2)
-						{
-							cout<<"Aircraft touched down on runway 09. Waiting period: 82 seconds"<<endl;
-							delay(196);
-						}
-						else if(pri==3||pri==4)
-						{
-							cout<<"Aircraft touched down on runway 27. Waiting period: 82 seconds"<<endl;
-							delay(196);
-						}
-					}
-					else if(ch==2)
-					{
-						enqueue(temp->flid, temp->sc, temp->pr);
-					}
+					cout<<"Aircraft touched down on runway 09. Waiting period: 82 seconds"<<endl;
+					delay(131);
 				}
+				else if(pri==3||pri==4)
+				{
+					cout<<"Aircraft touched down on runway 27. Waiting period: 82 seconds"<<endl;
+					delay(131);
+				}
+			}
+			else if(ch==2)
+			{
+				enqueue(temp->flid, temp->sc, temp->pr);
+			}
+		}
+		else if(temp->sc==3)
+		{
+			delay(180);
+			cout<<"Controller permission:"<<"\n1 - Full Stop\n 2 - Touch and go"<<endl;
+			cin>>ch;
+			if(ch==1)
+			{
+				if(pri==1||pri==2)
+				{
+					cout<<"Aircraft touched down on runway 09. Waiting period: 82 seconds"<<endl;
+					delay(196);
+				}
+				else if(pri==3||pri==4)
+				{
+					cout<<"Aircraft touched down on runway 27. Waiting period: 82 seconds"<<endl;
+					delay(196);
+				}
+			}
+			else if(ch==2)
+			{
+				enqueue(temp->flid, temp->sc, temp->pr);
+			}
+		}
                 cout<<"Next aircraft set to short final"<<endl;
                 delete(temp);
             }
@@ -160,7 +160,7 @@ class stack
                     cout<<temp->flid<<"->";
                     temp=temp->link;
                 }
-				cout<<endl;
+		cout<<endl;
             }
         }
 };
